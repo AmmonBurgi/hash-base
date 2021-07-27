@@ -27,19 +27,15 @@ const {JsonEncoder} = require('./JsonEncoder')
 //   },
 // }
 
-const encodeAttachment = (attachment = attachmentObject, hashAlgorithm, baseName) => {
-  console.log('This is encodeAttachment.')
+const encodeAttachment = (attachment, hashAlgorithm, baseName, metadata) => {
   if (attachment.data.sha256) {
-    console.log(`hl:${attachment.data.sha256}`)
     return `hl:${attachment.data.sha256}`
   } else if (attachment.data.base64) {
-    console.log(HashlinkEncoder.encode(BufferEncoder.fromBase64(attachment.data.base64),
-    hashAlgorithm,
-    baseName,))
     return HashlinkEncoder.encode(
       BufferEncoder.fromBase64(attachment.data.base64),
       hashAlgorithm,
       baseName,
+      metadata
     )
   } else if (attachment.data.json) {
     return HashlinkEncoder.encode(

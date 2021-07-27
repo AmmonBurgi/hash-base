@@ -33,7 +33,7 @@ class BufferEncoder {
     return Buffer.from(str)
   }
 
-  static toUtf8String(Buffer) {
+  static toUtf8String(buffer) {
     return Buffer.from(buffer).toString()
   }
 }

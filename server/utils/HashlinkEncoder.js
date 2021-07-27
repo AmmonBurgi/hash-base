@@ -42,9 +42,8 @@ class HashlinkEncoder {
   static decode(hashlink) {
     if (this.isValid(hashlink)) {
       const hashlinkList = hashlink.split(':')
-      //      const checksum = hashlinkList[1]
-      //      const metadata = hashlinkList[2] ? this.decodeMetadata(hashlinkList[2]) : null
 
+      // The value of index 0 is "h1", and is not needed below. VVV
       const [, checksum, encodedMetadata] = hashlinkList
       return encodedMetadata
         ? {checksum, metadata: this.decodeMetadata(encodedMetadata)}
