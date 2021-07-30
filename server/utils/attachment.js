@@ -1,7 +1,7 @@
 const {BufferEncoder} = require('./BufferEncoder')
 const {HashlinkEncoder} = require('./HashlinkEncoder')
+const fetch = require('node-fetch');
 const {JsonEncoder} = require('./JsonEncoder')
-
 /*
  * Encodes an attachment based on the `data` property
  * Param attachment is the attachment that needs to be encoded
@@ -37,12 +37,14 @@ const encodeAttachment = (attachment, hashAlgorithm, baseName, metadata) => {
       baseName,
       metadata
     )
-  } else if (attachment.data.json) {
-    return HashlinkEncoder.encode(
-      JsonEncoder.toBuffer(attachment.data.json),
-      hashAlgorithm,
-      baseName,
-    )
+  } else if (attachment.data.link) {
+    let buffer = '';
+    fetch(attachment.data.link.urls[0])
+    .then(urlResponse => urlResponse.buffer()
+    .then(buff => buffer = buff)
+    .catch(err => console.log('Buffer could not be created!', err)))
+    .catch(error => console.log('Could not fetch url image!', error))
+    return HashlinkEncoder.encode(buffer, hashAlgorithm, baseName)
   } else {
     throw new Error(`Attachment: (${attachment.id}) has no data to create a link with`)
   }

@@ -7,7 +7,10 @@ function App() {
 
   const handleEncodeAttachment = () => {
     axios.post('/api/attachment/encode')
-    .then((res) => setEncodedAttachments(res.data))
+    .then((res) => {
+      console.log(res.data)
+      setEncodedAttachments(res.data)
+    })
     .catch((err) => console.log(err))
   };
 

@@ -20,7 +20,7 @@ class MultibaseEncoder {
    * @returns {string} encodingAlgorithm name of the encoding algorithm
    * VVV
    */
-  static decode(data) {
+  static decode(data){
     if (this.isValid(data)) {
       const baseName = multibase.encodingFromData(data).name
       return {data: multibase.decode(data), baseName}

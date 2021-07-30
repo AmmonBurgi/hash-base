@@ -73,7 +73,9 @@ class HashlinkEncoder {
 
   static encodeMultihashEncoder(buffer, hashName, baseEncoding) {
     // TODO: Support more hashing algorithms
+    console.log('buffer', buffer)
     const hash = new Uint8Array(sha256.array(buffer))
+    console.log('hash', hash)
     const mh = MultihashEncoder.encode(hash, hashName)
     const mb = MultibaseEncoder.encode(mh, baseEncoding)
     return BufferEncoder.toUtf8String(mb)
