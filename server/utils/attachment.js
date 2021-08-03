@@ -38,13 +38,24 @@ const encodeAttachment = (attachment, hashAlgorithm, baseName, metadata) => {
       metadata
     )
   } else if (attachment.data.link) {
-    let buffer = '';
-    fetch(attachment.data.link.urls[0])
-    .then(urlResponse => urlResponse.buffer()
-    .then(buff => buffer = buff)
-    .catch(err => console.log('Buffer could not be created!', err)))
-    .catch(error => console.log('Could not fetch url image!', error))
-    return HashlinkEncoder.encode(buffer, hashAlgorithm, baseName)
+    //@hashURL Fetch a url attachment and encode it into a hashlink.
+    const {link} = attachment.data
+    async function hashURL(){
+      const response = await fetch(link);
+      const buffer = await response.buffer();
+      return HashlinkEncoder.encode(buffer, 'sha2-256', 'base58btc', metadata);
+    }
+    // async function hashMultipleURL(){
+    //   const buffers = await Promise.all(urls.map(async url => {
+    //     const resp = await fetch(url);
+    //     return await resp.buffer();
+    //   }));
+    //   const buffersMap = buffers.map(buffs => {
+    //     return HashlinkEncoder.encode(buffs, 'sha2-256', 'base58btc')
+    //   })
+    //   return buffersMap
+    // }
+    return hashURL();
   } else {
     throw new Error(`Attachment: (${attachment.id}) has no data to create a link with`)
   }

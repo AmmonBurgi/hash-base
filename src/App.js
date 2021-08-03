@@ -16,14 +16,21 @@ function App() {
 
   const decodeAttachments = () => {
     axios.post('/api/attachment/decode', {encodedAttachments})
-    .then((res) => console.log(res))
+    .then((res) => console.log(res.data))
     .catch((err) => console.log(err))
+  }
+
+  const fetchUrl = () => {
+    axios.get('/api/attachment/fetch')
+    .then(res => console.log(res.data))
+    .catch(err => console.log(err)) 
   }
 
   return (
     <div className="App">
       <button onClick={handleEncodeAttachment}>Encode Attachment</button>
       {encodedAttachments.length !== 0 ? <button onClick={decodeAttachments}>Decode Attachments</button> : null}
+      <button onClick={fetchUrl} >Fetch URL</button>
     </div>
   );
 }
